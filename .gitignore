@@ -1,2 +1,4 @@
 rush-01
 *.out
+.vscode/
+.DS_Store

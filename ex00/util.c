@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 01:55:14 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/23 16:58:08 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 11:33:33 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_putstr(char c)
+void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
+void	ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
 void	ft_puterr(char *str)
 {
 	write(2, str, ft_strlen(str));
