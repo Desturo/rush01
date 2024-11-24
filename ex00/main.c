@@ -6,12 +6,12 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:31:58 by nschneid          #+#    #+#             */
-/*   Updated: 2024/11/24 13:22:05 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:39:36 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 int		ft_strlen(char *str);
@@ -77,7 +77,6 @@ int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
 	counter = 0;
 	viewing = 0;
 	highest = 0;
-
 	while (counter < 4)
 	{
 		if (grid[x][counter] == to_check)
@@ -88,7 +87,6 @@ int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
 	}
 	if(check_o_and_f(x, y, c_view, to_check))
 		return (1);
-	
 	counter = 0;
 	while (counter < x)
 	{
@@ -97,13 +95,20 @@ int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
 			highest = grid[counter][y];
 			viewing++;
 		}
+		printf("Cords: (%d|%d)  Highest: %d  View: %d  To ckeck: %d\n", x, y, highest, viewing ,to_check);
 		if (c_view[0] == viewing && to_check < highest)
+		{
+			printf("Accepted!\n\n");
 			return 1;
+		}
 		counter++;
 	}
 	if (to_check < highest)
+	{
+		printf("Denied!\n\n");
 		return (0);
-	
+	}
+	printf("Else! (%d|%d)\n\n",x,y);
 	highest = 0;
 	counter = 3;
 	while (counter > x)
@@ -189,9 +194,14 @@ void	put_grid(int grid[4][4])
 void read_input(char *str, int views[4][4])
 {
 	int i;
+	int x;
+	int	y;
+	int counter;
 
+	counter = 0;
 	i = 0;
-	views = NULL;
+	x = 0;
+	y = 0;
 	while (str[i])
 	{
 		if (str[i] != ' ' && !(str[i] >= '0' &&  str[i] <= '4'))
@@ -205,6 +215,17 @@ void read_input(char *str, int views[4][4])
 			exit(1);
 		}
 		i++;
+	}
+	while (x < 4)
+	{
+		while (y < 4)
+		{
+			views[x][y] = (str[counter * 2]) - 48;
+			counter++;
+			y++;
+		}
+		y = 0;
+		x++;
 	}
 }
 
@@ -228,14 +249,20 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 
-	// read_input(argv[1], views);
+	read_input(argv[1], views);
 	// if(solve_grid(0,0, grid, views))
 	// {
 	// 	put_grid(grid);
 	// }
 	// else
 	// {
-	// 	printf("Unsolvable");
+	// 	put_grid(grid);
+	// 	ft_puterr("Unsolvable!\n");
+	// 	return (1);
 	// }
+	// int	c_views[4];
+	// get_views(3, 3, c_views, views);
+	// printf("ColUp: %d\nColDown: %d\nRowLeft: %d\nRowRight: %d\n", c_views[0], c_views[1], c_views[2], c_views[3]);
+	put_grid(views);
 	return (0);
 }
