@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 20:53:26 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:20:35 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	**ft_split(char *str);
 int		ft_atoi(const char *str);
-void	ft_puterr();
+void	ft_puterr(char *str);
 
 int	**allocate_views_memory(int size, char **tokens)
 {
@@ -56,7 +56,7 @@ int	calculate_size(char **tokens)
 	if (count % 4 != 0)
 	{
 		free(tokens);
-		ft_puterr();
+		ft_puterr("Error\n");
 		exit(1);
 	}
 	return (count / 4);
@@ -64,13 +64,13 @@ int	calculate_size(char **tokens)
 
 int	convert_token(char **tokens, int i, int j, int size)
 {
-	int output;
-	
+	int	output;
+
 	output = ft_atoi(tokens[size * i + j]);
 	if (output < 1 || output > size)
 	{
 		free(tokens);
-		ft_puterr();
+		ft_puterr("Error\n");
 	}
 	return (output);
 }

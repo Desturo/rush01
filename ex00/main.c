@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 21:18:04 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:43:17 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,39 @@ int		**parse_input(char *input, int *size);
 void	free_views(int **views);
 void	free_grid(int **grid, int size);
 void	print_grid(int **grid, int size);
-bool	solve_puzzle(int **grid, int size, int **views, int row, int col);
+bool	solve_puzzle(int **props[2], int size, int row, int col);
 bool	is_valid_constraints(int **views, int size);
 int		**init_grid(int size);
+
+bool	check_constraints(int **views, int size)
+{
+	if (!is_valid_constraints(views, size))
+	{
+		ft_puterr("Invalid view combinations\n");
+		return (1);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
 	int	size;
-	int	**views;
 	int	**grid;
-	
+	int	**views;
+	int	**props[2];
+
 	if (argc != 2)
 	{
 		ft_puterr("Invalid number of arguments\n");
 		return (1);
 	}
 	views = parse_input(argv[1], &size);
-	if (!is_valid_constraints(views, size))
-	{
-		ft_puterr("Invalid view combinations\n");
+	if (check_constraints(views, size))
 		return (1);
-	}
 	grid = init_grid(size);
-	if (solve_puzzle(grid, size, views, 0, 0))
+	props[0] = grid;
+	props[1] = views;
+	if (solve_puzzle(props, size, 0, 0))
 		print_grid(grid, size);
 	else
 		ft_puterr("Error\n");
