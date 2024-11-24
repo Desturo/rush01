@@ -2,3 +2,4 @@ rush-01
 *.out
 .vscode/
 .DS_Store
+test_cases.txt
