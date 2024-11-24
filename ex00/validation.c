@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:46:03 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 21:56:33 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:03:12 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ bool	is_correct_amount_visible(int *line, int no_of_view, int size,
 			cur_height = line[size - 1 - i];
 		else
 			cur_height = line[i];
-		if (cur_height == 0)
-			break ;
 		if (cur_height > max_height)
 		{
 			max_height = cur_height;
@@ -59,7 +57,7 @@ bool	is_correct_amount_visible(int *line, int no_of_view, int size,
 		}
 		i++;
 	}
-	return (count <= no_of_view);
+	return (count == no_of_view);
 }
 
 bool	is_valid_view(int ***props, int size, int row, int col)
