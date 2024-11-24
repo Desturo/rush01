@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 15:58:28 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:31:06 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 void	ft_puterr(char *str);
-int		*parse_input(char *input, int *size);
+int		**parse_input(char *input, int *size);
 
 #define N 7
 
@@ -29,19 +29,19 @@ int		views41[4][4] = {
 };
 
 // 6x6
-int views61[4][N] = {
-    {4, 2, 4, 2, 2, 1}, // column up
-    {2, 3, 1, 2, 3, 4}, // column down
-    {6, 2, 2, 4, 1, 2}, // row left
-    {1, 2, 3, 2, 3, 3}  // row right
+int		views61[4][N] = {
+	{4, 2, 4, 2, 2, 1}, // column up
+	{2, 3, 1, 2, 3, 4}, // column down
+	{6, 2, 2, 4, 1, 2}, // row left
+	{1, 2, 3, 2, 3, 3}  // row right
 };
 
 // 7x7
-int views71[4][N] = {
-    {4, 2, 1, 2, 2, 4, 3}, // column up
-    {2, 3, 3, 3, 4, 3, 1}, // column down
-    {2, 2, 3, 3, 3, 1, 2}, // row left
-    {3, 5, 3, 2, 2, 4, 1}  // row right
+int		views71[4][N] = {
+	{4, 2, 1, 2, 2, 4, 3}, // column up
+	{2, 3, 3, 3, 4, 3, 1}, // column down
+	{2, 2, 3, 3, 3, 1, 2}, // row left
+	{3, 5, 3, 2, 2, 4, 1}  // row right
 };
 
 bool	is_unique_value(int grid[N][N], int row, int col, int value)
@@ -73,7 +73,7 @@ bool	is_correct_amount_visible(int *line, int no_of_view, bool is_reverse)
 	while (i < N)
 	{
 		if (is_reverse)
-		 	cur_height =line[N - 1 - i];
+			cur_height = line[N - 1 - i];
 		else
 			cur_height = line[i];
 		if (cur_height == 0)
@@ -142,17 +142,17 @@ bool	solve(int grid[N][N], int views[4][N], int row, int col)
 	return (false);
 }
 
-void	print_grid(int grid[N][N])
+void	print_grid(int **grid, int size)
 {
 	char	c;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j < N; j++)
+		for (int j = 0; j < size; j++)
 		{
 			c = grid[i][j] + '0';
 			write(1, &c, 1);
-			if (j < N - 1)
+			if (j < size - 1)
 				write(1, " ", 1);
 		}
 		write(1, "\n", 1);
@@ -180,27 +180,99 @@ int	main(int argc, char **argv)
 {
 	int	size;
 	int	*view_values;
-	int	views[4][size];
-	int	grid[N][N] = {0};
+	int	**views;
+	int	**grid;
+	int	i;
+	int	j;
 
+	// int	grid[N][N] = {0};
+	// int	views[4][size];
 	if (argc != 2)
 	{
 		printf("Usage: %s <input>\n", argv[0]);
 		return (1);
 	}
-	view_values = parse_input(argv[1], &size);
-	if (!view_values)
+	// view_values = parse_input(argv[1], &size);
+	// if (!view_values)
+	// {
+	// 	printf("Error: Invalid input\n");
+	// 	return (1);
+	// }
+	// for (int i = 0; i < size; i++)
+	// {
+	// 	views[0][i] = view_values[i];
+	// 	views[1][i] = view_values[size + i];
+	// 	views[2][i] = view_values[size * 2 + i];
+	// 	views[3][i] = view_values[size * 3 + i];
+	// }
+	// free(view_values);
+	views = parse_input(argv[1], &size);
+	grid = (int **)malloc(size * sizeof(int *));
+	i = 0;
+	while (i < size)
 	{
-		printf("Error: Invalid input\n");
-		return (1);
+		grid[i] = (int *)malloc((size) * sizeof(int));
+		if (!grid[i])
+		{
+			return (1);
+		}
+		i++;
 	}
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			grid[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	printf("Size: ");
+	printf("%d ", size);
+	printf("\n");
+	printf("\n");
+	printf("Top: ");
 	for (int i = 0; i < size; i++)
+		printf("%d ", views[0][i]);
+	printf("\n");
+	printf("Bottom: ");
+	for (int i = 0; i < size; i++)
+		printf("%d ", views[1][i]);
+	printf("\n");
+	printf("Left: ");
+	for (int i = 0; i < size; i++)
+		printf("%d ", views[2][i]);
+	printf("\n");
+	printf("Right: ");
+	for (int i = 0; i < size; i++)
+		printf("%d ", views[3][i]);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	print_grid(views, size);
+	// if (solve(grid, views41, 0, 0))
+	// {
+	// 	print_grid(grid);
+	// }
+	// else
+	// {
+	// 	ft_puterr("Error\n");
+	// }
+	i = 0;
+	while (i < 4)
 	{
-		views[0][i] = view_values[i];
-		views[1][i] = view_values[size + i];
-		views[2][i] = view_values[size * 2 + i];
-		views[3][i] = view_values[size * 3 + i];
+		free(views[i]);
+		i++;
 	}
-	free(view_values);
+	free(views);
+	i = 0;
+	while (i < size)
+	{
+		free(grid[i]);
+		i++;
+	}
+	free(grid);
 	return (0);
 }
