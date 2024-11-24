@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:31:58 by nschneid          #+#    #+#             */
-/*   Updated: 2024/11/24 14:39:36 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:54:37 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
 	if(check_o_and_f(x, y, c_view, to_check))
 		return (1);
 	counter = 0;
+	
+	
 	while (counter < x)
 	{
 		if(grid[counter][y] > highest)
@@ -103,12 +105,14 @@ int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
 		}
 		counter++;
 	}
-	if (to_check < highest)
+	if (c_view[0] != viewing && to_check < highest)
 	{
 		printf("Denied!\n\n");
 		return (0);
 	}
 	printf("Else! (%d|%d)\n\n",x,y);
+
+	
 	highest = 0;
 	counter = 3;
 	while (counter > x)
@@ -250,19 +254,19 @@ int	main(int argc, char *argv[])
 	}
 
 	read_input(argv[1], views);
-	// if(solve_grid(0,0, grid, views))
-	// {
-	// 	put_grid(grid);
-	// }
-	// else
-	// {
-	// 	put_grid(grid);
-	// 	ft_puterr("Unsolvable!\n");
-	// 	return (1);
-	// }
+	if(solve_grid(0,0, grid, views))
+	{
+		put_grid(grid);
+	}
+	else
+	{
+		put_grid(grid);
+		ft_puterr("Unsolvable!\n");
+		return (1);
+	}
 	// int	c_views[4];
 	// get_views(3, 3, c_views, views);
 	// printf("ColUp: %d\nColDown: %d\nRowLeft: %d\nRowRight: %d\n", c_views[0], c_views[1], c_views[2], c_views[3]);
-	put_grid(views);
+	// put_grid(views);
 	return (0);
 }
