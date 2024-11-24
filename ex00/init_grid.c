@@ -1,61 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   init_grid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 01:55:14 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:16:37 by kaahmed          ###   ########.fr       */
+/*   Created: 2024/11/24 17:58:25 by kaahmed           #+#    #+#             */
+/*   Updated: 2024/11/24 18:11:26 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdlib.h>
 
-int	ft_strlen(char *str)
+int	**allocate_grid_memory(int size)
 {
+	int	**grid;
 	int	i;
 
+	grid = (int **)malloc(size * sizeof(int *));
 	i = 0;
-	while (str[i] != '\0')
+	while (i < size)
+	{
+		grid[i] = (int *)malloc((size) * sizeof(int));
+		if (!grid[i])
+		{
+			return (NULL);
+			exit(1);
+		}
 		i++;
-	return (i);
+	}
+	return (grid);
 }
 
-void	ft_putchar(char c)
+int	**init_grid(int size)
 {
-	write(1, &c, 1);
-}
+	int	**grid;
+	int	i;
+	int	j;
 
-void	ft_putstr(char *str)
-{
-	write(1, str, ft_strlen(str));
-}
-
-void	ft_puterr(char *str)
-{
-	write(2, str, ft_strlen(str));
-}
-
-void	print_grid(int **grid, int size)
-{
-	char	c;
-	int		i;
-	int		j;
-
+	grid = allocate_grid_memory(size);
 	i = 0;
 	while (i < size)
 	{
 		j = 0;
 		while (j < size)
 		{
-			c = grid[i][j] + '0';
-			ft_putchar(c);
-			if (j < size - 1)
-				ft_putchar(' ');
+			grid[i][j] = 0;
 			j++;
 		}
-		ft_putchar('\n');
 		i++;
 	}
+	return (grid);
 }

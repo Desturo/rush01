@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 15:12:47 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:05:58 by kaahmed          ###   ########.fr       */
+/*   Created: 2024/11/24 17:41:33 by kaahmed           #+#    #+#             */
+/*   Updated: 2024/11/24 17:44:37 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
-{
-	int	result;
+#include <stdlib.h>
 
-	result = 0;
-	while (*str >= '0' && *str <= '9')
+void	free_views(int **views)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
 	{
-		result = result * 10 + (*str - '0');
-		str++;
+		free(views[i]);
+		i++;
 	}
-	return (result);
+	free(views);
+}
+
+void	free_grid(int **grid, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		free(grid[i]);
+		i++;
+	}
+	free(grid);
 }

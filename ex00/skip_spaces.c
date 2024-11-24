@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   skip_spaces.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 15:12:47 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:05:58 by kaahmed          ###   ########.fr       */
+/*   Created: 2024/11/24 18:08:02 by kaahmed           #+#    #+#             */
+/*   Updated: 2024/11/24 18:08:08 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
+int	ft_is_whitespace(char c)
 {
-	int	result;
+	return (c == ' ' || c == '\t' || c == '\n');
+}
 
-	result = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10 + (*str - '0');
+char	*ft_skip_whitespace(char *str)
+{
+	while (*str && ft_is_whitespace(*str))
 		str++;
-	}
-	return (result);
+	return (str);
+}
+
+char	*ft_skip_non_whitespace(char *str)
+{
+	while (*str && !ft_is_whitespace(*str))
+		str++;
+	return (str);
 }

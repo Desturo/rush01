@@ -6,53 +6,91 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 15:23:14 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:45:25 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 char	**ft_split(char *str);
 int		ft_atoi(const char *str);
+void	ft_puterr(char *str);
 
-int	*parse_input(char *input, int *size)
+int	**allocate_views_memory(int size, char **tokens)
 {
-	int		count;
-	int		i;
-	char	**tokens;
-	int		*values;
-	int		num;
+	int	**views;
+	int	i;
 
-	count = 0;
+	views = (int **)malloc(4 * sizeof(int *));
+	if (!views)
+	{
+		free(tokens);
+		return (NULL);
+	}
 	i = 0;
-	tokens = ft_split(input);
-	while (tokens[count])
+	while (i < 4)
 	{
-		count++;
-	}
-	if (count % 4 != 0)
-	{
-		free(tokens);
-		return (NULL);
-	}
-	*size = count / 4;
-	values = (int *)malloc(count * sizeof(int));
-	if (!values)
-	{
-		free(tokens);
-		return (NULL);
-	}
-	for (i = 0; i < count; i++)
-	{
-		num = ft_atoi(tokens[i]);
-		if (num < 1 || num > *size)
+		views[i] = malloc((size) * sizeof(int));
+		if (!views[i])
 		{
-			free(values);
 			free(tokens);
 			return (NULL);
 		}
-		values[i] = num;
+		i++;
+	}
+	if (!views)
+	{
+		free(tokens);
+		return (NULL);
+	}
+	return (views);
+}
+
+int	calculate_size(char **tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens[count])
+		count++;
+	if (count % 4 != 0)
+	{
+		free(tokens);
+		ft_puterr("views combinations is not correct\n");
+		exit(1);
+	}
+	return (count / 4);
+}
+
+int	**parse_input(char *input, int *size)
+{
+	char	**tokens;
+	int		**views;
+	int		num;
+	int		i;
+	int		j;
+
+	tokens = ft_split(input);
+	*size = calculate_size(tokens);
+	views = allocate_views_memory(*size, tokens);
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < *size)
+		{
+			num = ft_atoi(tokens[*size * i + j]);
+			if (num < 1 || num > *size)
+			{
+				free(tokens);
+				return (NULL);
+			}
+			views[i][j] = num;
+			j++;
+		}
+		i++;
 	}
 	free(tokens);
-	return (values);
+	return (views);
 }
