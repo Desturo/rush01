@@ -6,11 +6,12 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:46:03 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:12:42 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:49:58 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 bool	is_unique_value(int **grid, int size, int row, int col, int value)
 {
@@ -59,9 +60,10 @@ bool	is_correct_amount_visible(int *line, int no_of_view, int size,
 
 bool	is_valid_view(int **grid, int size, int **views, int row, int col)
 {
-	int	line[size];
+	int	*line;
 	int	i;
 
+	line = (int *)malloc(size * sizeof(int));
 	if (row == size - 1)
 	{
 		i = 0;
@@ -82,6 +84,7 @@ bool	is_valid_view(int **grid, int size, int **views, int row, int col)
 		if (!is_correct_amount_visible(grid[row], views[3][row], size, true))
 			return (false);
 	}
+	free(line);
 	return (true);
 }
 
