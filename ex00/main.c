@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 19:34:14 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:57:42 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	main(int argc, char **argv)
 	int	size;
 	int	**views;
 	int	**grid;
-
-	i = 0;
+	
 	if (argc != 2)
 	{
 		ft_puterr("Invalid number of arguments\n");
