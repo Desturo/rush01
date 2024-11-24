@@ -6,19 +6,20 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 15:58:28 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:05:22 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/_types/_gid_t.h>
 #include <unistd.h>
 
 void	ft_puterr(char *str);
 int		*parse_input(char *input, int *size);
 
-#define N 7
+#define N 4
 
 // 4x4
 int		views41[4][4] = {
@@ -144,18 +145,26 @@ bool	solve(int grid[N][N], int views[4][N], int row, int col)
 
 void	print_grid(int grid[N][N])
 {
+	int 	i;
+	int 	j;
 	char	c;
 
-	for (int i = 0; i < N; i++)
+	i = 0;
+	j = 0;
+
+	while (i < 4)
 	{
-		for (int j = 0; j < N; j++)
+		while (j < 4)
 		{
 			c = grid[i][j] + '0';
 			write(1, &c, 1);
 			if (j < N - 1)
 				write(1, " ", 1);
+			j++;
 		}
 		write(1, "\n", 1);
+		j = 0;
+		i++;
 	}
 }
 
@@ -182,7 +191,9 @@ int	main(int argc, char **argv)
 	int	*view_values;
 	int	views[4][size];
 	int	grid[N][N] = {0};
+	int	i;
 
+	i = 0;
 	if (argc != 2)
 	{
 		printf("Usage: %s <input>\n", argv[0]);
@@ -194,13 +205,23 @@ int	main(int argc, char **argv)
 		printf("Error: Invalid input\n");
 		return (1);
 	}
-	for (int i = 0; i < size; i++)
+	while (i < size)
 	{
 		views[0][i] = view_values[i];
 		views[1][i] = view_values[size + i];
 		views[2][i] = view_values[size * 2 + i];
 		views[3][i] = view_values[size * 3 + i];
+		i++;
 	}
 	free(view_values);
+	
+	if(solve(grid, views41, 0, 0))
+	{
+		print_grid(grid);
+	}
+	else
+	{
+		ft_puterr("Unsolved");
+	}
 	return (0);
 }
