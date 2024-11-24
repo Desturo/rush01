@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 15:57:04 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:58:28 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ bool	is_correct_amount_visible(int *line, int no_of_view, bool is_reverse)
 		else
 			cur_height = line[i];
 		if (cur_height == 0)
-		{
 			break ;
-		}
 		if (cur_height > max_height)
 		{
 			max_height = cur_height;
