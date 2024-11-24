@@ -6,7 +6,7 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:36:49 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:45:25 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 char	**ft_split(char *str);
 int		ft_atoi(const char *str);
+void	ft_puterr(char *str);
 
 int	**allocate_views_memory(int size, char **tokens)
 {
@@ -46,26 +47,32 @@ int	**allocate_views_memory(int size, char **tokens)
 	return (views);
 }
 
-int	**parse_input(char *input, int *size)
+int	calculate_size(char **tokens)
 {
-	int		count;
-	int		i;
-	char	**tokens;
-	int		num;
-	int		**views;
-	int		j;
+	int	count;
 
 	count = 0;
-	i = 0;
-	tokens = ft_split(input);
 	while (tokens[count])
 		count++;
 	if (count % 4 != 0)
 	{
 		free(tokens);
-		return (NULL);
+		ft_puterr("views combinations is not correct\n");
+		exit(1);
 	}
-	*size = count / 4;
+	return (count / 4);
+}
+
+int	**parse_input(char *input, int *size)
+{
+	char	**tokens;
+	int		**views;
+	int		num;
+	int		i;
+	int		j;
+
+	tokens = ft_split(input);
+	*size = calculate_size(tokens);
 	views = allocate_views_memory(*size, tokens);
 	i = 0;
 	while (i < 4)
