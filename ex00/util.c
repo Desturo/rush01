@@ -6,7 +6,7 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 01:55:14 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 17:52:18 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:16:37 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_putstr(char *str)
 {
 	write(1, str, ft_strlen(str));
 }
+
 void	ft_puterr(char *str)
 {
 	write(2, str, ft_strlen(str));
@@ -38,17 +39,23 @@ void	ft_puterr(char *str)
 
 void	print_grid(int **grid, int size)
 {
-	char c;
+	char	c;
+	int		i;
+	int		j;
 
-	for (int i = 0; i < size; i++)
+	i = 0;
+	while (i < size)
 	{
-		for (int j = 0; j < size; j++)
+		j = 0;
+		while (j < size)
 		{
 			c = grid[i][j] + '0';
-			write(1, &c, 1);
+			ft_putchar(c);
 			if (j < size - 1)
-				write(1, " ", 1);
+				ft_putchar(' ');
+			j++;
 		}
-		write(1, "\n", 1);
+		ft_putchar('\n');
+		i++;
 	}
 }

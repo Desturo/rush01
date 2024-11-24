@@ -6,30 +6,15 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:11:58 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 15:13:38 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:08:35 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_is_whitespace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
-
-char	*ft_skip_whitespace(char *str)
-{
-	while (*str && ft_is_whitespace(*str))
-		str++;
-	return (str);
-}
-
-char	*ft_skip_non_whitespace(char *str)
-{
-	while (*str && !ft_is_whitespace(*str))
-		str++;
-	return (str);
-}
+int		ft_is_whitespace(char c);
+char	*ft_skip_whitespace(char *str);
+char	*ft_skip_non_whitespace(char *str);
 
 int	ft_wordlen(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:46:03 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 17:55:02 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 18:12:42 by kaahmed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	is_valid_view(int **grid, int size, int **views, int row, int col)
 
 bool	is_valid_constraints(int **views, int size)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < size)
