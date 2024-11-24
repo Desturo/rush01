@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 21:20:35 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:37:51 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 char	**ft_split(char *str);
 int		ft_atoi(const char *str);
-void	ft_puterr(char *str);
 
 int	**allocate_views_memory(int size, char **tokens)
 {
@@ -56,8 +55,7 @@ int	calculate_size(char **tokens)
 	if (count % 4 != 0)
 	{
 		free(tokens);
-		ft_puterr("Error\n");
-		exit(1);
+		return (-1);
 	}
 	return (count / 4);
 }
@@ -69,8 +67,7 @@ int	convert_token(char **tokens, int i, int j, int size)
 	output = ft_atoi(tokens[size * i + j]);
 	if (output < 1 || output > size)
 	{
-		free(tokens);
-		ft_puterr("Error\n");
+		return -1;
 	}
 	return (output);
 }
@@ -83,7 +80,11 @@ int	**parse_input(char *input, int *size)
 	int		j;
 
 	tokens = ft_split(input);
+	if (!tokens)
+		return (NULL);
 	*size = calculate_size(tokens);
+	if (*size == -1)
+		return (NULL);
 	views = allocate_views_memory(*size, tokens);
 	i = 0;
 	while (i < 4)
@@ -91,7 +92,13 @@ int	**parse_input(char *input, int *size)
 		j = 0;
 		while (j < *size)
 		{
-			views[i][j] = convert_token(tokens, i, j, *size);
+			int num = convert_token(tokens, i, j, *size);
+			if (num == -1)
+			{
+				free(tokens);
+				return NULL;
+			}
+			views[i][j] = num;
 			j++;
 		}
 		i++;

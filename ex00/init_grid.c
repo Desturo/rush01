@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_grid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:58:25 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:11:26 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 22:13:42 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	**allocate_grid_memory(int size)
 		if (!grid[i])
 		{
 			return (NULL);
-			exit(1);
 		}
 		i++;
 	}
