@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaahmed <kaahmed@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 18:45:25 by kaahmed          ###   ########.fr       */
+/*   Updated: 2024/11/24 20:53:26 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	**ft_split(char *str);
 int		ft_atoi(const char *str);
-void	ft_puterr(char *str);
+void	ft_puterr();
 
 int	**allocate_views_memory(int size, char **tokens)
 {
@@ -32,12 +32,11 @@ int	**allocate_views_memory(int size, char **tokens)
 	while (i < 4)
 	{
 		views[i] = malloc((size) * sizeof(int));
-		if (!views[i])
+		if (!views[i++])
 		{
 			free(tokens);
 			return (NULL);
 		}
-		i++;
 	}
 	if (!views)
 	{
@@ -57,17 +56,29 @@ int	calculate_size(char **tokens)
 	if (count % 4 != 0)
 	{
 		free(tokens);
-		ft_puterr("views combinations is not correct\n");
+		ft_puterr();
 		exit(1);
 	}
 	return (count / 4);
+}
+
+int	convert_token(char **tokens, int i, int j, int size)
+{
+	int output;
+	
+	output = ft_atoi(tokens[size * i + j]);
+	if (output < 1 || output > size)
+	{
+		free(tokens);
+		ft_puterr();
+	}
+	return (output);
 }
 
 int	**parse_input(char *input, int *size)
 {
 	char	**tokens;
 	int		**views;
-	int		num;
 	int		i;
 	int		j;
 
@@ -80,13 +91,7 @@ int	**parse_input(char *input, int *size)
 		j = 0;
 		while (j < *size)
 		{
-			num = ft_atoi(tokens[*size * i + j]);
-			if (num < 1 || num > *size)
-			{
-				free(tokens);
-				return (NULL);
-			}
-			views[i][j] = num;
+			views[i][j] = convert_token(tokens, i, j, *size);
 			j++;
 		}
 		i++;
