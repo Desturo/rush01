@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:11:58 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:26:20 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:03:41 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ char	**ft_split(char *str)
 	while (*str)
 	{
 		str = ft_skip_whitespace(str);
+		if (*str == ' ')
+		{
+			return (NULL);
+		}
 		if (*str && !ft_is_whitespace(*str))
 		{
 			arr[i] = ft_allocate_word(str);

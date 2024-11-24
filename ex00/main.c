@@ -6,14 +6,12 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:45:50 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:05:41 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
-#include <sys/_types/_gid_t.h>
-#include <unistd.h>
 
 void	ft_puterr(void);
 int		**parse_input(char *input, int *size);

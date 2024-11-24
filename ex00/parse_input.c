@@ -6,11 +6,10 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:51:50 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:06:52 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 
 char	**ft_split(char *str);
