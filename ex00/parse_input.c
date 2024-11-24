@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:37:51 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:42:39 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	convert_token(char **tokens, int i, int j, int size)
 	output = ft_atoi(tokens[size * i + j]);
 	if (output < 1 || output > size)
 	{
-		return -1;
+		return (-1);
 	}
 	return (output);
 }
@@ -78,6 +78,7 @@ int	**parse_input(char *input, int *size)
 	int		**views;
 	int		i;
 	int		j;
+	int		num;
 
 	tokens = ft_split(input);
 	if (!tokens)
@@ -92,11 +93,11 @@ int	**parse_input(char *input, int *size)
 		j = 0;
 		while (j < *size)
 		{
-			int num = convert_token(tokens, i, j, *size);
+			num = convert_token(tokens, i, j, *size);
 			if (num == -1)
 			{
 				free(tokens);
-				return NULL;
+				return (NULL);
 			}
 			views[i][j] = num;
 			j++;

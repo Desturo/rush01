@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 01:55:14 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:12:39 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:42:11 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_putstr(char *str)
 	write(1, str, ft_strlen(str));
 }
 
-void	ft_puterr()
+void	ft_puterr(void)
 {
 	write(2, "Error\n", 6);
 }
