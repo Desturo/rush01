@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:31:58 by nschneid          #+#    #+#             */
-/*   Updated: 2024/11/23 16:38:42 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/23 18:16:07 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ int	solve_grid(int x, int y, int *grid[], int *views[])
 			if (check_allowed(x, y, grid, views, counter))
 			{
 				grid[x][y] = counter;
-				solve_grid(x, y, grid, views);
+				if (solve_grid(x, y + 1, grid, views))
+					return 1;
+				grid[x][y] = 0;
 			}
 		}
+		return 0;
 }
 
 int check_allowed(int x, int y, int *grid[], int *views[], int to_check)
@@ -60,7 +63,12 @@ int check_allowed(int x, int y, int *grid[], int *views[], int to_check)
 		while (viewing_counter < 4)
 		{
 			if (viewing == current_views[0])
-				viewing_counter = 4;
+				break ;
+
+			if (x == 0)
+				viewing_counter++;
+			else if ((grid[x][y] < grid[x - 1][y]))
+			 ;
 		}
 		
 	}
@@ -102,7 +110,7 @@ int	main(int argc, char *argv[])
 {
 	argv[0] = NULL;
 	int	grid[4][4];
-	int views[4][4] = {{0,1,2,3},{20,21,22,23}, {10,11,12,13},{30,31,32,33}};
+	int views[4][4] = {{4,3,2,1},{1,2,2,2},{4,3,2,1},{1,2,2,2}};
 	// int current_views[4];
 	int counter_x = 0;
 	int counter_y = 0;
