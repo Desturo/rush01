@@ -5,268 +5,204 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 12:31:58 by nschneid          #+#    #+#             */
-/*   Updated: 2024/11/24 14:54:37 by nschneid         ###   ########.fr       */
+/*   Created: 2024/11/23 16:59:36 by kaahmed           #+#    #+#             */
+/*   Updated: 2024/11/24 15:57:04 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-int		ft_strlen(char *str);
-void	ft_putchar(char c);
-void	ft_putstr(char *str);
 void	ft_puterr(char *str);
+int		*parse_input(char *input, int *size);
 
-void	put_grid(int grid[4][4]);
-int		solve_grid(int x, int y, int grid[4][4], int views[4][4]);
-int 	check_allowed(int x, int y, int grid[4][4], int views[4][4], int to_check);
-int		check_o_and_f(int x, int y, int c_view[4], int to_check);
-int		*get_views(int x, int y, int *views_at_cord, int views[4][4]);
-void	read_input(char *str, int views[4][4]);
+#define N 7
 
-int	solve_grid(int x, int y, int grid[4][4], int views[4][4])
+// 4x4
+int		views41[4][4] = {
+	{4, 3, 2, 1}, // column up
+	{1, 2, 2, 2}, // column down
+	{4, 3, 2, 1}, // row left
+	{1, 2, 2, 2}  // row right
+};
+
+// 6x6
+int views61[4][N] = {
+    {4, 2, 4, 2, 2, 1}, // column up
+    {2, 3, 1, 2, 3, 4}, // column down
+    {6, 2, 2, 4, 1, 2}, // row left
+    {1, 2, 3, 2, 3, 3}  // row right
+};
+
+// 7x7
+int views71[4][N] = {
+    {4, 2, 1, 2, 2, 4, 3}, // column up
+    {2, 3, 3, 3, 4, 3, 1}, // column down
+    {2, 2, 3, 3, 3, 1, 2}, // row left
+    {3, 5, 3, 2, 2, 4, 1}  // row right
+};
+
+bool	is_unique_value(int grid[N][N], int row, int col, int value)
 {
-	int	counter;
-	counter = 1;
-	if(x == 4)
-		return 1;
-	else if (y == 4)
-		return solve_grid(x + 1, 0, grid, views);
-	else if (grid[x][y] != 0)
-		return solve_grid(x, y + 1, grid, views);
-	else
-	{
-	 	while (counter <= 4) {
-			if (check_allowed(x, y, grid, views, counter))
-			{
-				grid[x][y] = counter;
-				if (solve_grid(x, y + 1, grid, views))
-					return 1;
-				grid[x][y] = 0;
-			}
-			counter++;
-		}
-		return 0;
-	}
-}
+	int	i;
 
-int check_o_and_f(int x, int y, int c_view[4], int to_check)
-{
-	if(((x == 0 && c_view[0] == 1) || (x == 3 && c_view[1] == 1)) && to_check == 4)
-		return (1);
-	else if(((y == 0 && c_view[2] == 1) || (y == 3 && c_view[3] == 1)) && to_check == 4)
-		return (1);
-	else if(((x == 0 && c_view[0] == 4) || (x == 3 && c_view[1] == 4)) && to_check == 1)
-		return (1);
-	else if(((y == 0 && c_view[2] == 4) || (y == 3 && c_view[3] == 4)) && to_check == 1)
-		return (1);
-	else
-	 return (0);
-}
-
-int check_allowed(int x, int y, int	grid[4][4], int views[4][4], int to_check)
-{
-	int c_view[4];
-	int counter;
-	int	highest;
-	int	viewing;
-	get_views(x, y, c_view, views);
-
-	counter = 0;
-	viewing = 0;
-	highest = 0;
-	while (counter < 4)
-	{
-		if (grid[x][counter] == to_check)
-			return (0);
-		else if (grid[counter][y] == to_check)
-			return (0);
-		counter++;
-	}
-	if(check_o_and_f(x, y, c_view, to_check))
-		return (1);
-	counter = 0;
-	
-	
-	while (counter < x)
-	{
-		if(grid[counter][y] > highest)
-		{
-			highest = grid[counter][y];
-			viewing++;
-		}
-		printf("Cords: (%d|%d)  Highest: %d  View: %d  To ckeck: %d\n", x, y, highest, viewing ,to_check);
-		if (c_view[0] == viewing && to_check < highest)
-		{
-			printf("Accepted!\n\n");
-			return 1;
-		}
-		counter++;
-	}
-	if (c_view[0] != viewing && to_check < highest)
-	{
-		printf("Denied!\n\n");
-		return (0);
-	}
-	printf("Else! (%d|%d)\n\n",x,y);
-
-	
-	highest = 0;
-	counter = 3;
-	while (counter > x)
-	{
-		if(grid[counter][y] > highest)
-		{
-			highest = grid[counter][y];
-			viewing++;
-		}
-		if (c_view[1] == viewing && to_check < highest)
-			return 1;
-		counter--;
-	}
-	if (to_check < highest)
-		return (0);
-
-	highest = 0;
-	counter = 0;
-	while (counter < y)
-	{
-		if(grid[x][counter] > highest)
-		{
-			highest = grid[x][counter];
-			viewing++;
-		}
-		if (c_view[2] == viewing && to_check < highest)
-			return 1;
-		counter++;
-	}
-	if (to_check < highest)
-		return (0);
-
-	highest = 0;
-	counter = 3;
-	while (counter > y)
-	{
-		if(grid[x][counter] > highest)
-		{
-			highest = grid[x][counter];
-			viewing++;
-		}
-		if (c_view[3] == viewing && to_check < highest)
-			return 1;
-		counter--;
-	}
-	if (to_check < highest)
-		return (0);
-	
-	return (1);
-}
-
-int	*get_views(int x, int y, int *views_at_cord, int views[4][4])
-{
-	views_at_cord[0] = views[0][x];
-	views_at_cord[1] = views[1][x];
-	views_at_cord[2] = views[2][y];
-	views_at_cord[3] = views[3][y];
-	return (views_at_cord);
-}
-
-void	put_grid(int grid[4][4])
-{
-	int counter_x;
-	int counter_y;
-
-	counter_x = 0;
-	counter_y = 0;
-
-	while (counter_x < 4)
-	{
-		while (counter_y < 4)
-		{
-			write(1, &"0123456789"[grid[counter_x][counter_y]], 1);
-			write(1, " ", 1);
-			counter_y++;
-		}
-		write(1, "\n", 1);
-		counter_y = 0;
-		counter_x++;
-	}
-}
-
-void read_input(char *str, int views[4][4])
-{
-	int i;
-	int x;
-	int	y;
-	int counter;
-
-	counter = 0;
 	i = 0;
-	x = 0;
-	y = 0;
-	while (str[i])
+	while (i < N)
 	{
-		if (str[i] != ' ' && !(str[i] >= '0' &&  str[i] <= '4'))
-		{	
-			ft_puterr("Invalid character in input!\n");
-			exit(1);
-		}
-		if (((ft_strlen(str) + 1) / 2) != 16)
+		if (grid[row][i] == value || grid[i][col] == value)
 		{
-			ft_puterr("Invalid number of characters in input!\n");
-			exit(1);
+			return (false);
 		}
 		i++;
 	}
-	while (x < 4)
+	return (true);
+}
+
+bool	is_correct_amount_visible(int *line, int no_of_view, bool is_reverse)
+{
+	int	count;
+	int	max_height;
+	int	i;
+	int	cur_height;
+
+	count = 0;
+	max_height = 0;
+	i = 0;
+	while (i < N)
 	{
-		while (y < 4)
+		if (is_reverse)
+		 	cur_height =line[N - 1 - i];
+		else
+			cur_height = line[i];
+		if (cur_height == 0)
 		{
-			views[x][y] = (str[counter * 2]) - 48;
-			counter++;
-			y++;
+			break ;
 		}
-		y = 0;
-		x++;
+		if (cur_height > max_height)
+		{
+			max_height = cur_height;
+			count++;
+		}
+		i++;
+	}
+	return (count <= no_of_view);
+}
+
+bool	is_valid_view(int grid[N][N], int views[4][N], int row, int col)
+{
+	static int	line[N];
+	int			i;
+
+	if (row == N - 1)
+	{
+		i = 0;
+		while (i < N)
+		{
+			line[i] = grid[i][col];
+			i++;
+		}
+		if (!is_correct_amount_visible(line, views[0][col], false))
+			return (false);
+		if (!is_correct_amount_visible(line, views[1][col], true))
+			return (false);
+	}
+	if (col == N - 1)
+	{
+		if (!is_correct_amount_visible(grid[row], views[2][row], false))
+			return (false);
+		if (!is_correct_amount_visible(grid[row], views[3][row], true))
+			return (false);
+	}
+	return (true);
+}
+
+bool	solve(int grid[N][N], int views[4][N], int row, int col)
+{
+	int	value;
+
+	if (row == N)
+		return (true);
+	if (col == N)
+		return (solve(grid, views, row + 1, 0));
+	value = 1;
+	while (value <= N)
+	{
+		if (is_unique_value(grid, row, col, value))
+		{
+			grid[row][col] = value;
+			if (is_valid_view(grid, views, row, col) && solve(grid, views, row,
+					col + 1))
+			{
+				return (true);
+			}
+			grid[row][col] = 0;
+		}
+		value++;
+	}
+	return (false);
+}
+
+void	print_grid(int grid[N][N])
+{
+	char	c;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			c = grid[i][j] + '0';
+			write(1, &c, 1);
+			if (j < N - 1)
+				write(1, " ", 1);
+		}
+		write(1, "\n", 1);
 	}
 }
 
-int	main(int argc, char *argv[])
+bool	is_valid_constraints(int views[4][N])
 {
-	int	grid[4][4];
-	int views[4][4] = {{4,3,2,1}, {1,2,2,2}, {4,3,2,1}, {1,2,2,2}};
-	int counter_x = 0;
-	int counter_y = 0;
-	while (counter_x < 4) {
-		while (counter_y < 4) {
-			grid[counter_x][counter_y] = 0;
-			counter_y++;
-		}
-		counter_x++;
-		counter_y = 0;
-	}
-	if(argc != 2)
-	{
-		ft_puterr("Invalid number of arguments. This program always requiers 1 argument!\n");
-		return (1);
-	}
+	int	i;
 
-	read_input(argv[1], views);
-	if(solve_grid(0,0, grid, views))
+	i = 0;
+	while (i < N)
 	{
-		put_grid(grid);
+		if (views[0][i] + views[1][i] > N + 1 || views[2][i] + views[3][i] > N
+			+ 1)
+		{
+			return (false);
+		}
+		i++;
 	}
-	else
+	return (true);
+}
+
+int	main(int argc, char **argv)
+{
+	int	size;
+	int	*view_values;
+	int	views[4][size];
+	int	grid[N][N] = {0};
+
+	if (argc != 2)
 	{
-		put_grid(grid);
-		ft_puterr("Unsolvable!\n");
+		printf("Usage: %s <input>\n", argv[0]);
 		return (1);
 	}
-	// int	c_views[4];
-	// get_views(3, 3, c_views, views);
-	// printf("ColUp: %d\nColDown: %d\nRowLeft: %d\nRowRight: %d\n", c_views[0], c_views[1], c_views[2], c_views[3]);
-	// put_grid(views);
+	view_values = parse_input(argv[1], &size);
+	if (!view_values)
+	{
+		printf("Error: Invalid input\n");
+		return (1);
+	}
+	for (int i = 0; i < size; i++)
+	{
+		views[0][i] = view_values[i];
+		views[1][i] = view_values[size + i];
+		views[2][i] = view_values[size * 2 + i];
+		views[3][i] = view_values[size * 3 + i];
+	}
+	free(view_values);
 	return (0);
 }
