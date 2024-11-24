@@ -6,7 +6,7 @@
 /*   By: nschneid <nschneid@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:13:22 by kaahmed           #+#    #+#             */
-/*   Updated: 2024/11/24 22:42:39 by nschneid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:51:50 by nschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,21 @@ int	convert_token(char **tokens, int i, int j, int size)
 	return (output);
 }
 
-int	**parse_input(char *input, int *size)
+int	**assign_views(int size, char **tokens)
 {
-	char	**tokens;
-	int		**views;
-	int		i;
-	int		j;
-	int		num;
+	int	**views;
+	int	num;
+	int	i;
+	int	j;
 
-	tokens = ft_split(input);
-	if (!tokens)
-		return (NULL);
-	*size = calculate_size(tokens);
-	if (*size == -1)
-		return (NULL);
-	views = allocate_views_memory(*size, tokens);
+	views = allocate_views_memory(size, tokens);
 	i = 0;
 	while (i < 4)
 	{
 		j = 0;
-		while (j < *size)
+		while (j < size)
 		{
-			num = convert_token(tokens, i, j, *size);
+			num = convert_token(tokens, i, j, size);
 			if (num == -1)
 			{
 				free(tokens);
@@ -104,6 +97,21 @@ int	**parse_input(char *input, int *size)
 		}
 		i++;
 	}
+	return (views);
+}
+
+int	**parse_input(char *input, int *size)
+{
+	char	**tokens;
+	int		**views;
+
+	tokens = ft_split(input);
+	if (!tokens)
+		return (NULL);
+	*size = calculate_size(tokens);
+	if (*size == -1)
+		return (NULL);
+	views = assign_views(*size, tokens);
 	free(tokens);
 	return (views);
 }
